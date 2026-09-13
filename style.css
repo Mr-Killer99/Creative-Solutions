@@ -1,0 +1,373 @@
+/* =============================================
+   PORTFOLIO — AHMADOU DOUCOURÉ · Creative Solutions
+   style.css — Styles personnalisés
+   (glassmorphism, animations, composants)
+-----------------------------------------------
+   Palette : Brand (cyan) / Accent (violet) / Dark
+   Tailwind est chargé via CDN dans index.html
+   (classes utilitaires) ; ce fichier contient
+   uniquement les styles sur-mesure.
+   ============================================= */
+
+/* --- Base --- */
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: #030712;
+    color: #f8fafc;
+    font-family: 'Outfit', ui-sans-serif, system-ui, sans-serif;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* --- Variables CSS Portfolio --- */
+:root {
+    --brand-400: #22d3ee;
+    --brand-500: #06b6d4;
+    --brand-600: #0891b2;
+    --violet-400: #a855f7;
+    --violet-500: #9333ea;
+    --violet-600: #7e22ce;
+    --dark-800: #111827;
+    --dark-900: #030712;
+    --dark-950: #000000;
+    --glass-bg: rgba(17, 24, 39, 0.6);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --transition-smooth: all 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+    --transition-fast: all 0.3s ease;
+}
+
+::selection {
+    background: var(--brand-500);
+    color: white;
+}
+
+/* --- Scrollbar Personnalisée --- */
+::-webkit-scrollbar {
+    width: 6px;
+}
+::-webkit-scrollbar-track {
+    background: var(--dark-900);
+}
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(to bottom, var(--brand-600), var(--violet-600));
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(to bottom, var(--brand-500), var(--violet-500));
+}
+
+/* --- Barre de progression de lecture --- */
+.scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 3px;
+    background: linear-gradient(to right, var(--brand-400), var(--violet-400));
+    z-index: 9999;
+    transition: width 0.1s linear;
+    box-shadow: 0 0 10px rgba(34, 211, 238, 0.5);
+}
+
+/* --- Cursor Spotlight --- */
+.cursor-spotlight {
+    position: fixed;
+    width: 500px;
+    height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(34, 211, 238, 0.06) 0%, transparent 70%);
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    transition: opacity 0.3s ease;
+    z-index: 1;
+}
+
+/* --- Grille Tech en arrière-plan --- */
+.bg-grid-pattern {
+    background-size: 40px 40px;
+    background-image:
+        linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+}
+
+/* --- Glassmorphism --- */
+.glass-panel {
+    background: var(--glass-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+}
+
+.glass-nav {
+    background: rgba(3, 7, 18, 0.75);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* --- Gradients Texte --- */
+.text-gradient {
+    background: linear-gradient(135deg, var(--brand-400) 0%, var(--violet-400) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* --- Bordure Gradient au Hover --- */
+.border-gradient-hover {
+    position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.border-gradient-hover::before {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    border-radius: inherit;
+    background: linear-gradient(135deg, var(--brand-400), var(--violet-400));
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+.border-gradient-hover:hover::before {
+    opacity: 1;
+}
+.border-gradient-hover:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px rgba(34, 211, 238, 0.1);
+}
+
+/* --- Scroll Reveal --- */
+.reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: var(--transition-smooth);
+}
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* --- Animations Keyframes --- */
+@keyframes blob {
+    0%   { transform: translate(0px, 0px) scale(1); }
+    100% { transform: translate(30px, -50px) scale(1.1); }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50%      { transform: translateY(-20px); }
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes shimmer {
+    0%   { background-position: -200% center; }
+    100% { background-position: 200% center; }
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* --- Blobs de lumière --- */
+.blob-purple {
+    animation: blob 10s infinite alternate;
+}
+.blob-cyan {
+    animation: blob 12s infinite alternate-reverse;
+}
+
+/* --- Flottement --- */
+.animate-float {
+    animation: float 6s ease-in-out infinite;
+}
+
+/* --- Barre de compétence --- */
+.skill-bar {
+    height: 6px;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.skill-bar-fill {
+    height: 100%;
+    border-radius: 999px;
+    width: 0%;
+    transition: width 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.skill-bar-fill.animated {
+    width: var(--skill-width);
+}
+
+.skill-bar-fill.cyan {
+    background: linear-gradient(to right, var(--brand-600), var(--brand-400));
+    box-shadow: 0 0 10px rgba(34, 211, 238, 0.5);
+}
+.skill-bar-fill.yellow {
+    background: linear-gradient(to right, #ca8a04, #facc15);
+}
+.skill-bar-fill.blue-light {
+    background: linear-gradient(to right, #2563eb, #60a5fa);
+}
+.skill-bar-fill.purple {
+    background: linear-gradient(to right, var(--violet-600), var(--violet-400));
+    box-shadow: 0 0 10px rgba(168, 85, 247, 0.5);
+}
+.skill-bar-fill.blue {
+    background: linear-gradient(to right, #1d4ed8, #3b82f6);
+}
+.skill-bar-fill.green {
+    background: linear-gradient(to right, #15803d, #4ade80);
+}
+
+/* --- Navigation active state --- */
+.nav-link {
+    position: relative;
+    color: #cbd5e1;
+    padding: 0.5rem 1rem;
+    border-radius: 999px;
+    transition: color 0.2s, background 0.2s;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 2px;
+    background: linear-gradient(to right, var(--brand-400), var(--violet-400));
+    border-radius: 2px;
+    transition: width 0.3s ease;
+}
+.nav-link:hover,
+.nav-link.active {
+    color: white;
+    background: rgba(255, 255, 255, 0.06);
+}
+.nav-link.active::after {
+    width: 60%;
+}
+
+/* --- Card Tilt 3D effect --- */
+.project-card {
+    transform-style: preserve-3d;
+    will-change: transform;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+/* --- Form Input Focus Glow --- */
+.form-input {
+    background: rgba(3, 7, 18, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0.5rem;
+    padding: 0.75rem 1rem;
+    color: white;
+    width: 100%;
+    transition: border-color 0.3s, box-shadow 0.3s, background 0.3s;
+    font-family: 'Outfit', ui-sans-serif, system-ui, sans-serif;
+    font-size: 0.875rem;
+    outline: none;
+}
+.form-input::placeholder {
+    color: #4b5563;
+}
+.form-input:focus {
+    border-color: var(--brand-500);
+    background: rgba(3, 7, 18, 0.8);
+    box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.15), 0 0 20px rgba(6, 182, 212, 0.1);
+}
+.form-input.accent:focus {
+    border-color: var(--violet-500);
+    box-shadow: 0 0 0 3px rgba(147, 51, 234, 0.15), 0 0 20px rgba(147, 51, 234, 0.1);
+}
+.form-input.input-error {
+    border-color: #ef4444;
+}
+
+/* --- Toast Notification --- */
+.portfolio-toast {
+    transform: translateY(150%);
+    opacity: 0;
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.portfolio-toast.show {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+/* --- Sélecteur de langue FR/EN --- */
+.lang-btn {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    color: #94a3b8;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 0.5rem;
+    padding: 0.3rem 0.5rem;
+    cursor: pointer;
+    transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+}
+.lang-btn:hover {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.06);
+}
+.lang-btn.active {
+    color: var(--brand-400);
+    background: rgba(34, 211, 238, 0.1);
+    border-color: rgba(34, 211, 238, 0.3);
+}
+.lang-btn:focus-visible {
+    outline: 2px solid var(--brand-400);
+    outline-offset: 2px;
+}
+
+/* --- Spinner bouton --- */
+.animate-spin-slow {
+    animation: spin 0.8s linear infinite;
+}
+
+/* --- Accessibilité : mouvement réduit --- */
+@media (prefers-reduced-motion: reduce) {
+    .reveal {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+    .animate-float,
+    .blob-purple,
+    .blob-cyan {
+        animation: none;
+    }
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+    .cursor-spotlight {
+        display: none;
+    }
+}
+
+@media (max-width: 640px) {
+    .glass-panel {
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+    }
+}
